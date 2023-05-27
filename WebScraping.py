@@ -5,12 +5,21 @@ import csv
 path = "C:/chromedriver.exe"
 browser = webdriver.Chrome(executable_path=path)
 
+#def write_csv(ads):
+#    with open('D:\\result1.csv','a',encoding='utf-8') as f:
+#        fields = ['title', 'price', 'url', 'review', 'rating']
+#        writer = csv.DictWriter(f, fieldnames=fields)
+#        for ad in ads:
+#            writer.writerow(ad)
+
 def write_csv(ads):
-    with open('D:\\result.csv','a',encoding='utf-8') as f:
+    with open('D:\\result1.csv','a',encoding='utf-8') as f:
         fields = ['title', 'price', 'url', 'review', 'rating']
         writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()  # Writes the field names as the first row
         for ad in ads:
             writer.writerow(ad)
+
         
 
 def get_html(url):
