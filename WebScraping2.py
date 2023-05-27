@@ -38,8 +38,13 @@ def extract_data_asin(url):
     match = re.search(regex_pattern, url)
     if match:
         return match.group(1)
-    else:
-        return None
+
+def productdesc(soup):
+    try:
+        desc = soup.find('div',class_='a-section launchpad-text-left-justify').find_all('p')[1].text
+    except:
+        desc = ''
+    return desc
 
 for url in df.url[1:201]:
     try:
@@ -54,12 +59,14 @@ for url in df.url[1:201]:
         manufacturer = scrape_manufacturer(soup)
         additional_description = scrape_additional_descriptions(soup)
         data_asin = extract_data_asin(browser.current_url)
+        productdescription = productdesc(soup)
 
         scraped_info = {
             'URL': complete_url,
             'Manufacturer': manufacturer,
             'Additional Descriptions': additional_description,
-            'Data ASIN': data_asin
+            'Product Description' : productdescription,
+            'Data ASIN': data_asin,
         }
 
         scraped_data.append(scraped_info)
@@ -70,5 +77,5 @@ for url in df.url[1:201]:
         continue
 
 scraped_df = pd.DataFrame(scraped_data)
-scraped_df.to_csv('scraped_data.csv', index=False)
+scraped_df.to_csv('scraped_data1.csv', index=False)
 browser.quit()
